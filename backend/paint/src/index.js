@@ -162,7 +162,8 @@ class Game extends React.Component {
     fetch("/colour_pixel", {
       method: 'PUT',
       body: JSON.stringify({
-        index: i,
+        row: Math.floor(i/this.state.n_cols),
+        col: i%this.state.n_cols,
         colour: this.state.colour
       })
 
