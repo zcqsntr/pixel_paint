@@ -36,7 +36,7 @@ function Square(props) {
 
 class ColourPicker extends React.Component {
   state = {
-    background: '#fff',
+    background: '#ffffff',
   };
 
   handleChange = (color) => {
@@ -123,7 +123,7 @@ class Game extends React.Component {
     this.state = {
       n_rows: 6,
       n_cols: 9,
-      colour: "#fff",
+      colour: "#ffffff",
       history: [{
         squares: Array(16*16).fill(null),
       }],
@@ -140,7 +140,38 @@ class Game extends React.Component {
       colour: colour.hex
     });
   }
-
+  
+  
+  clear = () => {
+    console.log(this.state.n_rows * this.state.n_cols);
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+      const current = history[history.length - 1];
+      const squares = current.squares.slice();
+      fetch("/clear", {
+      method: 'PUT',
+      body: JSON.stringify({
+        rows: this.state.n_rows,
+        cols: this.state.n_cols,
+        colour: "#000000"
+      })
+      })
+    for(i=0; i < this.state.n_rows * this.state.n_cols; i++){
+      
+      squares[i] = "#000000";
+      
+    
+    }
+    
+    this.setState({
+      history: history.concat([
+        {
+          squares: squares
+        }
+      ]),
+      stepNumber: history.length,
+      xIsNext: !this.state.xIsNext
+    });
+  }
 
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
@@ -204,7 +235,7 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-
+    
     const moves = history.map((step, move) => {
       const desc = move ?
         'Go to move #' + move :
@@ -222,7 +253,13 @@ class Game extends React.Component {
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
-
+   
+     /*
+        <div className="game-info">
+          <div>{status}</div>
+          <ol>{moves}</ol>
+        </div>
+        */
     return (
       <div className="game">
         <div className="game-board">
@@ -233,15 +270,14 @@ class Game extends React.Component {
             onClick={(i) => this.handleClick(i)}
           />
         </div>
+        
         <div>
           <ColourPicker
             handleChangeComplete={this.handleColourChange}
           />
         </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
-        </div>
+        
+       
         <div>
           <div>
             Number of rows:
@@ -257,6 +293,11 @@ class Game extends React.Component {
               onChange={this.change_n_cols}
               />
           </div>
+        </div>
+        
+        <div>
+          <button onClick={this.clear} >
+        </button>
         </div>
 
       </div>
