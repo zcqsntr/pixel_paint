@@ -124,8 +124,8 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      n_rows: 32,
-      n_cols: 10,
+      n_rows: 64,
+      n_cols: 64,
       colour: "#ffffff",
       history: [{
         squares: Array(16*16).fill(null),
@@ -135,14 +135,9 @@ class Game extends React.Component {
       mouse_is_down: false
     };
 
-    console.log("connected");
 
   }
   
-  isLoaded() {
-    cosole.log('loaded');
-    clear();
-  }
 
   handleColourChange = (colour) =>{
     this.setState({
@@ -152,7 +147,7 @@ class Game extends React.Component {
   
   
   clear = () => {
-    console.log(this.state.n_rows * this.state.n_cols);
+    
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
@@ -194,7 +189,7 @@ class Game extends React.Component {
   }
   
   handleMouseUp() {
-    console.log(this.state.mouse_is_down)
+    
     this.setState({
       mouse_is_down: false
     });
