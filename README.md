@@ -1,4 +1,6 @@
+requirements:
 
+git: sudo apt-get install git
 
 to run on the webapp on the raspberry pi:
 cd backend 
