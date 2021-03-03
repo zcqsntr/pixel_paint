@@ -11,7 +11,7 @@ using rgb_matrix::Canvas;
 using rgb_matrix::RGBMatrix;
 using rgb_matrix::Color;
 
-using namespace std;
+using namespace std;  
 
 int main(int argc, char* argv[]){
 	
@@ -62,6 +62,11 @@ int main(int argc, char* argv[]){
 		colour = Color{inputs[5*i + 2], inputs[5*i + 3], inputs[5*i + 4]};
 		SetPixel(canvas, coords, colour);
 	    }
+	    
+	    
+	    
+	    
+	    
 	    
 	    /*
 	    for( int i = 0; i < inputs.size(); i++){

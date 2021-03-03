@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     path: path.resolve('./paint/static/paint/'),
-    filename: '[name]-[hash].js',
+    filename: '[name].js',
     publicPath: 'static/paint/',
   },
   plugins: [

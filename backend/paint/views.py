@@ -64,17 +64,7 @@ def colour_pixel(request):
 
 @csrf_exempt
 def clear(request):
-    
-    
-    data = json.loads(request.body)
-    rows = data.get("rows")
-    cols = data.get("cols")
-    colour = data.get("colour")
-    r,g,b = tuple(int(colour.lstrip('#')[i:i+2], 16) for i in (0,2,4))
-    for row in range(rows):
-        for col in range(cols):
-            message = str(row) + ',' + str(col) + ',' + str(r) + ',' + str(g) + ',' + str(b)
-            child.sendline(message)
+    child.sendline('clear')
     return JsonResponse({"message": "Cleared"}, status=201)
             
 

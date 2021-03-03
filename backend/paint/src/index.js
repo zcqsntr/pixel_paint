@@ -29,7 +29,7 @@ function range(start, stop, step) {
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick} style={{background:props.value}} >
+    <button className="square" onMouseDown={props.onMouseDown} onClick={props.onClick}  onMouseEnter={props.onDrag} onMouseUp={props.onMouseUp} style={{background:props.value}} >
     </button>
   );
 }
@@ -65,6 +65,9 @@ class Board extends React.Component {
 
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        onMouseUp={() => this.props.onMouseUp()}
+        onMouseDown={() => this.props.onMouseDown()}
+        onDrag={() => this.props.onDrag(i)}
       />
     );
   }
@@ -121,18 +124,24 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      n_rows: 6,
-      n_cols: 9,
+      n_rows: 32,
+      n_cols: 10,
       colour: "#ffffff",
       history: [{
         squares: Array(16*16).fill(null),
       }],
       stepNumber: 0,
       xIsNext: true,
+      mouse_is_down: false
     };
 
     console.log("connected");
 
+  }
+  
+  isLoaded() {
+    cosole.log('loaded');
+    clear();
   }
 
   handleColourChange = (colour) =>{
@@ -172,34 +181,59 @@ class Game extends React.Component {
       xIsNext: !this.state.xIsNext
     });
   }
+  
+  handleClick(i){
+    this.colour_square(i);
+  }
 
-  handleClick(i) {
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
-    const current = history[history.length - 1];
-    const squares = current.squares.slice();
-
-    squares[i] = this.state.colour;
-
+  handleMouseDown() {
     this.setState({
-      history: history.concat([
-        {
-          squares: squares
-        }
-      ]),
-      stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
+      mouse_is_down: true
     });
+    
+  }
+  
+  handleMouseUp() {
+    console.log(this.state.mouse_is_down)
+    this.setState({
+      mouse_is_down: false
+    });
+  }
+  
+  handleDrag(i) {
+    
+    if(this.state.mouse_is_down) {
+      this.colour_square(i);
+    }
+  }
+  
+  colour_square(i) {
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+      const current = history[history.length - 1];
+      const squares = current.squares.slice();
 
-    fetch("/colour_pixel", {
-      method: 'PUT',
-      body: JSON.stringify({
-        row: Math.floor(i/this.state.n_cols),
-        col: i%this.state.n_cols,
-        colour: this.state.colour
+      squares[i] = this.state.colour;
+
+      this.setState({
+        history: history.concat([
+          {
+            squares: squares
+          }
+        ]),
+        stepNumber: history.length,
+        xIsNext: !this.state.xIsNext
+      });
+
+      fetch("/colour_pixel", {
+        method: 'PUT',
+        body: JSON.stringify({
+          row: Math.floor(i/this.state.n_cols),
+          col: i%this.state.n_cols,
+          colour: this.state.colour
+        })
+
+
       })
-
-
-    })
   }
 
   jumpTo(step){
@@ -268,6 +302,9 @@ class Game extends React.Component {
             n_rows={this.state.n_rows}
             n_cols={this.state.n_cols}
             onClick={(i) => this.handleClick(i)}
+            onMouseUp={(i) => this.handleMouseUp()}
+            onMouseDown={(i) => this.handleMouseDown()}
+            onDrag={(i) => this.handleDrag(i)}
           />
         </div>
         
@@ -293,11 +330,8 @@ class Game extends React.Component {
               onChange={this.change_n_cols}
               />
           </div>
-        </div>
         
-        <div>
-          <button onClick={this.clear} >
-        </button>
+          <button onClick={this.clear} >Clear</button>
         </div>
 
       </div>

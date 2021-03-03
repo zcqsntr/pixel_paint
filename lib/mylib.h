@@ -7,7 +7,7 @@
 #include "graphics.h"
 #include <vector>
 #include <list>
-#include "libevdev.h"
+
 
 using rgb_matrix::Font;
 using rgb_matrix::Canvas;
@@ -83,15 +83,6 @@ void ResetCanvas(Canvas *canvas, int n_rows, int n_cols, Color bg_color);
 
 void SetPixels(Canvas *canvas, int LED_matrix[64][64], Color color, int n_rows, int n_cols );
 Color random_colour();
-
-ControllerInput parse_keyboard_input_CHIP8(struct input_event ev);
-list<ControllerInput> get_CHIP8_inputs(struct libevdev *dev);
-
-ControllerInput parse_ps4_input(struct input_event ev);
-
-list <ControllerInput> get_inputs_from_ps4(struct libevdev *dev);
-
-list<ControllerInput> get_inputs_from_ps4(struct libevdev *dev);
 
 void change_selected_button(vector<Button> &buttons, int dir, int &current_selected);
 int get_direction_from_inputs(list <ControllerInput> inputs);
