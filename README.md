@@ -9,8 +9,10 @@ install pexpect
 
 git clone https://github.com/zcqsntr/LED_paint
 
-to run on the webapp on the raspberry pi:
+
 cd backend 
+
+to run on the webapp on the raspberry pi:
 python3 manage.py runserver 
 then open the address in your browser
 
