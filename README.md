@@ -1,6 +1,6 @@
 ## Installation instructions 
 
-Run these commands in terminal
+Run these commands in terminal, git clone in the directory you want to install in
 
 ```console
 sudo apt-get update
