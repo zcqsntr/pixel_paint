@@ -16,20 +16,21 @@ cd backend
 ```
 
 ## Usage instructions
-to run on the webapp on the raspberry pi:
-```console
-python3 manage.py runserver 
-```
-then open the address in your browser
 
-
-to run the webapp on a local device:
+to run the webapp on a local device (recommended):
 
 ```console
 python3 manage.py runserver 0.0.0.0:8000
 ```
 
 then open your Pis IP address in a browser, alternatively you can use the address raspberrypi.local:8000
+
+to run on the webapp on the raspberry pi (may be laggy):
+```console
+python3 manage.py runserver 
+```
+then open the address in the browser on your Pi
+
 
 ## Misc
 npm run dev
