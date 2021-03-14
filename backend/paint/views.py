@@ -19,8 +19,7 @@ IF YOU DON'T KNOW THE ARGUMENTS I SUGGEST READING THE RGB-RPI LIBRARY DOCUMENTAT
 THEN REPLACE THE STRING BELOW WITH THE ARGUMENTS YOU HAVE TO SUPPLY TO RUN THE DEMOS, WITHOUT THE -D OBVIOUSLY
 """
 
-# this line is for my 64x64 matrix using adafruit-hat running on a pi 4 or a pi 3A
-rpi_rgb_args = "--led-cols=64 --led-rows=64 --led-gpio-mapping=adafruit-hat --led-slowdown-gpio=4"
+
 
 
 #Pi 0 with 64x64 matrix and adafruit hat
@@ -32,6 +31,8 @@ rpi_rgb_args = "--led-cols=64 --led-rows=32 --led-gpio-mapping=adafruit-hat --le
 # this line is for my 32x64 matrix using adafruit-hat running on a pi 4 or a pi 3A
 #rpi_rgb_args = "--led-cols=64 --led-rows=32 --led-gpio-mapping=adafruit-hat --led-slowdown-gpio=4"
 
+# this line is for my 64x64 matrix using adafruit-hat running on a pi 4 or a pi 3A
+rpi_rgb_args = "--led-cols=64 --led-rows=64 --led-gpio-mapping=adafruit-hat --led-slowdown-gpio=4"
 
 child = pexpect.spawn("paint/paint " + rpi_rgb_args)
 
