@@ -3,8 +3,10 @@
 #include "graphics.h"
 #include <vector>
 #include <list>
+
 #include <math.h>
 #include <iostream>
+#include <unistd.h>
 
 using rgb_matrix::Font;
 using rgb_matrix::Canvas;
@@ -41,6 +43,116 @@ ActionButton::ActionButton(Point p, string l, bool s, void (*tf)()): Button(p, l
 }
 */
 
+void draw_logo(Canvas* canvas, Point pos, int scale, Color blue, Color white) {
+    
+    vector<vector<Point>> blues;
+    vector<Point> whites;
+   
+    for(int i = 0; i < 12*scale; i++){
+      vector<Point> ps;
+      for(int row = 0; row < scale; row++){
+          for(int col = 0; col<scale; col++){
+            whites.push_back(Point{pos.row + 13*scale - i+row, pos.col +27*scale +col});
+        }
+      }
+      
+      //whites.push_back(ps);
+      
+      //blues.push_back({Point{pos.row + i, pos.col +25}, Point{pos.row + i, pos.col +26}, Point{pos.row + i, pos.col +28}, Point{pos.row + i, pos.col +29}});
+    }
+    
+    for(int i = 0; i < 7*scale; i++){
+      for(int row = 0; row < scale; row++){
+          for(int col = 0; col<scale; col++){
+            whites.push_back(Point{pos.row + 2*scale + i - row, pos.col + 27*scale- i + col});
+        }
+      }
+        
+      
+    }
+    
+    for(int i = 0; i < 7*scale; i++){
+      for(int row = 0; row < scale; row++){
+          for(int col = 0; col<scale; col++){
+            if(!(i ==0 && row == scale -1 && col == scale-1)) {
+              whites.push_back(Point{pos.row + 9*scale +row - i, pos.col + 20*scale +col - i});
+            }
+        }
+      }
+    }
+    
+    for (int i = 0; i < 12*scale; i++ ){
+      for(int row = 0; row < scale; row++){
+          for(int col = 0; col<scale; col++){
+            if(!(i == 12*scale -1 && row == scale -1)){
+              whites.push_back(Point{pos.row + 2*scale + i +row, pos.col + 13*scale + col});
+            }
+            
+      }
+    }
+    }
+    
+    for (int i = 0; i < 11*scale; i++ ){
+      for(int row = 0; row < scale; row++){
+          for(int col = 0; col<scale; col++){
+        whites.push_back(Point{pos.row + 13*scale - i +row, pos.col + 13*scale - i + col});
+      }
+    }
+    }
+    
+    for (int i = 0; i < 14*scale; i++ ){
+      for(int row = 0; row < scale; row++){
+          for(int col = 0; col<scale; col++){
+            if (pos.row + 2*scale +row + i <= pos.row +15*scale) {
+            whites.push_back(Point{pos.row + 2*scale +row + i, pos.col + 2*scale + col});
+          }
+      }
+    }
+    }
+      
+      for(auto point: whites){
+        vector<Point> ps;
+      
+        
+        for (int row = -2*scale; row < 2*scale+1; row++){
+          for(int col = -2*scale; col < 2*scale+1; col++){
+            if(row*row + col*col <= 4*scale*scale +1 && point.row + row <= pos.row + 15*scale) {
+              ps.push_back(Point{point.row + row, point.col + col});
+            }
+          }
+        }
+        blues.push_back(ps);
+      }
+      
+      
+    
+    
+
+    for(int i = 0; i < blues.size(); i++){
+      for(const Point point: blues[i]) {
+        
+        // only set the blue pixels that havent already been set to white
+        bool set = true;
+        for (int j = 0; j<i; j++){
+          
+          
+          if(whites[j].row == point.row && whites[j].col == point.col) {
+            set = false;
+          }
+
+        }
+        
+        if (set) {
+          SetPixel(canvas, point, blue);
+        }
+      }
+      
+      
+      SetPixel(canvas, whites[i],white);
+      usleep(10/(scale*scale) * 1000);
+    }
+  
+} 
 
 int get_selected_button(vector<Button> buttons){
 	for(int i = 0; i < buttons.size(); i++){
@@ -130,77 +242,6 @@ void SetPixels(Canvas *canvas, int LED_matrix[64][64], Color color, int n_rows =
 }
 
 
-void draw_buttons(Canvas *canvas, vector <Button> buttons, Font &font, Color selected_color, Color unselected_color) {
-      Color bg_color(0, 0, 0);
-      int letter_spacing = 0;
-      for(int i = 0; i < buttons.size(); i++) { // put this is a function
-
-      //draw_text(canvas, font, buttons[i].position.row + font.baseline(), buttons[i].position.col,
-                             //color, bg_color, buttons[i].text,
-                             //letter_spacing);
-                            
-      if(buttons[i].is_selected){
-        // border
-        //DrawRect(canvas, buttons[i].position.row -1, buttons[i].position.col -1, 6, 20, highlight_color);
-        draw_text(canvas, font, buttons[i].position.row + font.baseline(),  buttons[i].position.col, selected_color, bg_color, (char *)buttons[i].label.c_str(), letter_spacing);
-      } else {
-        //DrawRect(canvas, buttons[i].position.row -1, buttons[i].position.col -1, 6, 20, bg_color);
-        draw_text(canvas, font,  buttons[i].position.row + font.baseline(), buttons[i].position.col, unselected_color, bg_color, (char *)buttons[i].label.c_str(), letter_spacing);
-      }
-    }
-}
-
-
-void change_selected_button(vector<Button> &buttons, int dir, int &current_selected) {
-  
-  if(current_selected < buttons.size()-1 && dir == 1) { //down
-    buttons[current_selected].is_selected = false;
-    current_selected +=1;
-    buttons[current_selected].is_selected = true;
-  }
-  else if(current_selected > 0 && dir == -1) { //up
-    buttons[current_selected].is_selected = false;
-    current_selected -=1;
-    buttons[current_selected].is_selected = true;
-  }
-
-  
-  
-}
-
-int get_direction_from_inputs(list <ControllerInput> inputs){
-  
-  int dir = -1;
-  
-  for(const auto &input: inputs){
-    
-      switch(input.type) {  // go from first input as unlikely to have multiple inputs perframes with no sleep
-
-          case 'y':
-            if(input.value == -1) {
-              dir = 'u';
-            }else if(input.value == 1){
-              dir = 'd';
-            }
-            break;
-            
-          case 'x':
-            if(input.value == -1) {
-              dir = 'l';
-            }else if(input.value == 1){
-              dir = 'r';
-            }
-            break;
-          default:
-            break;
-            
-        }
-      }
-      
-      
-      
-      return dir;
-}
 
 Color random_colour() {
     float r = (float)random(0, 255);

@@ -61,6 +61,8 @@ struct ControllerInput {
   
 };
 
+void draw_logo(Canvas* canvas, Point pos, int scale, Color blue, Color white);
+
 void draw_buttons(Canvas *canvas, vector <Button> buttons, Font &font, Color selected_color, Color unselected_color);
 
 int get_selected_button(vector<Button> buttons);
@@ -84,6 +86,4 @@ void ResetCanvas(Canvas *canvas, int n_rows, int n_cols, Color bg_color);
 void SetPixels(Canvas *canvas, int LED_matrix[64][64], Color color, int n_rows, int n_cols );
 Color random_colour();
 
-void change_selected_button(vector<Button> &buttons, int dir, int &current_selected);
-int get_direction_from_inputs(list <ControllerInput> inputs);
 #endif
