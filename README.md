@@ -33,7 +33,7 @@ to run on the webapp on the raspberry pi (may be laggy):
 cd backend 
 python3 manage.py runserver 
 ```
-then open the address in the browser on your Pi
+then open the address it spits out in the console in the browser on your Pi
 
 
 ## Misc
