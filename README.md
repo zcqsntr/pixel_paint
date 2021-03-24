@@ -1,3 +1,5 @@
+Follow me on Instagram for more projects! [@neyth_makes](http://instagram.com/neyth_makes/)
+
 ## Installation instructions 
 
 Run these commands in terminal, git clone in the directory you want to install in
