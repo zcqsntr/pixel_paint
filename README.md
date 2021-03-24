@@ -10,7 +10,7 @@ install django
 install django-webpack-loader
 install pexpect
 
-git clone https://github.com/zcqsntr/LED_paint
+git clone https://github.com/zcqsntr/LED_paint --recursive
 
 
 ```
